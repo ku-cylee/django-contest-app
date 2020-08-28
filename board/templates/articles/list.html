@@ -1,0 +1,18 @@
+<div class="card col-lg-8 mt-2">
+    <div class="list-group list-group-flush">
+    {% for article in articles %}
+        <div class="list-group-item">
+            <div class="card-title">{{ article.title }}</div>
+            <div class="card-text">{{ article.last_updated_at }}</div>
+            <a href="{% url 'get_article' article.id %}" class="card-link">View article</a>
+            <a href="{% url 'profile_index' article.author.username %}" class="card-link">
+                Written by {{ article.author.username }}
+            </a>
+        </div>
+    {% empty %}
+        <div class="list-group-item">
+            <div class="card-text">No articles</div>
+        </div>
+    {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<!-- Parameters -->
+<!-- profile_user -->
+
+{% extends 'base.html' %}
+
+{% block title %}Profile of {{ profile_user.username }}{% endblock %}
+
+{% block header_title %}Profile of {{ profile_user.username }}{% endblock %}
+
+{% block header_buttons %}
+<a href="{% url 'profile_articles' profile_user.username %}" class="btn btn-primary">View Articles</a>
+{% endblock %}
+
+{% block body %}
+<div id="content" class="card">
+    <div class="card-body">
+        <div class="card-text">Email: {{ profile_user.email }}</div>
+        <div class="card-text">Joined At: {{ profile_user.date_joined }}</div>
+    </div>
+</div>
+{% endblock %}

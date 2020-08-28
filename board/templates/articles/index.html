@@ -1,0 +1,37 @@
+<!-- Parameters -->
+<!-- page, category, articles, has_prev, has_next -->
+
+{% extends 'base.html' %}
+
+{% block title %}Category {{ category.name }} - Page {{ page }}{% endblock %}
+
+{% block header_title %}Category {{ category.name }} - Page {{ page }}{% endblock %}
+
+{% block header_buttons %}
+{% if user.is_authenticated %}
+<a href="{% url 'compose_article' category.id %}" class="btn btn-info">Compose Article</a>
+{% endif %}
+
+{% if user.is_authenticated and user == category.creator %}
+<a href="{% url 'delete_category' category.id %}" class="btn btn-danger">Delete Category</a>
+{% endif %}
+{% endblock %}
+
+{% block body %}
+
+{% include 'articles/list.html' %}
+
+<ul class="pagination mt-4">
+    <li class="page-item {% if not has_prev %}disabled{% endif %}">
+        <a href="{% url 'category_view' category.id page|add:"-1" %}" class="page-link">
+            &lt;&lt; Previous
+        </a>
+    </li>
+    <li class="page-item {% if not has_next %}disabled{% endif %}">
+        <a href="{% url 'category_view' category.id page|add:1 %}" class="page-link">
+            Next &gt;&gt;
+        </a>
+    </li>
+</ul>
+
+{% endblock %}

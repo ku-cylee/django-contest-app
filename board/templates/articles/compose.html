@@ -1,0 +1,50 @@
+<!-- Parameters -->
+<!-- form, is_compose -->
+
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% if is_compose %}
+    Compose New Article
+{% else %}
+    Edit Article
+{% endif %}
+
+{% endblock %}
+
+{% block script %}
+
+<script 
+    type="text/javascript" 
+    src="https://cdn.ckeditor.com/ckeditor5/21.0.0/classic/ckeditor.js" 
+    defer></script>
+{% load static %}
+<script type="text/javascript" src="{% static 'editor-init.js' %}" defer></script>
+
+{% endblock %}
+
+{% block header_title %}
+
+{% if is_compose %}
+    Compose New Article
+{% else %}
+    Edit Article
+{% endif %}
+
+{% endblock %}
+
+{% block body %}
+
+<style>.ck-editor__editable{min-height:800px}   </style>
+
+<div class="compose-article">
+    <form method="POST" enctype="application/x-www-form-urlencoded">
+        {% csrf_token %}
+        {{ form.title }}
+        {{ form.content }}
+        <button class="btn btn-primary mt-2" type="submit">Submit Article</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+<!-- Parameters -->
+<!-- form, categories -->
+
+{% extends 'base.html' %}
+
+{% block title %}KWEB Page{% endblock %}
+
+{% block header_title %}KWEB Page{% endblock %}
+
+{% block body %}
+<div class="list-group mb-4">
+    {% for category in categories %}
+    <a href="{% url 'category_view_head' category.id %}" class="list-group-item list-group-item-action">{{ category.name }}</a>
+    {% empty %}
+    <a href="#" class="list-group-item list-group-item-action disabled">No Categories</a>
+    {% endfor %}
+</div>
+
+{% if user.is_authenticated %}
+    <button 
+        class="btn btn-info" type="button"
+        data-toggle="collapse" data-target="#categoryForm"
+        aria-expanded="false" aria-controls="categoryForm">Create new category</button>
+
+    <div class="alert alert-success collapse col-sm-6" id="categoryForm">
+        <form action="{% url 'create_category' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group mt-2 mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="name-addon">Name</span>
+                </div>
+                {{ form.name }}
+            </div>
+            <button class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endif %}
+{% endblock %}

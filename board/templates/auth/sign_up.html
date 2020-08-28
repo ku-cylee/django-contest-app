@@ -1,0 +1,37 @@
+<!-- Parameters -->
+<!-- form -->
+
+{% extends 'base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block header_title %}Sign Up{% endblock %}
+
+{% block header_buttons %}
+<a href="{% url 'sign_in' %}" class="btn btn-info">Sign In</a>
+{% endblock %}
+
+{% block body %}
+<form method="post" class="col-sm-6">
+    {% csrf_token %}
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="username-addon">Username</span>
+        </div>
+        {{ form.username }}
+    </div>
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="password-addon">Password</span>
+        </div>
+        {{ form.password }}
+    </div>
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="email-addon">Email</span>
+        </div>
+        {{ form.email }}
+    </div>
+    <button class="btn btn-primary" type="submit">Sign Up</button>
+</form>
+{% endblock %}

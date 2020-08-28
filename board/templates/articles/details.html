@@ -1,0 +1,85 @@
+<!-- Parameters -->
+<!-- article, comments, comments_count, likes_count, liked, form -->
+
+{% extends 'base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block header_title %}{{ article.title }}{% endblock %}
+
+{% block header_buttons %}
+{% if user.is_authenticated and article.author == user %}
+<a href="{% url 'edit_article' article.id %}" class="btn btn-warning">Edit Article</a>
+<a href="{% url 'delete_article' article.id %}" class="btn btn-danger">Delete Article</a>
+{% endif %}
+{% endblock %}
+
+{% block body %}
+
+<div id="content" class="card">
+    <div class="card-header">
+        <div class="card-text">
+            Category: 
+            <a href="{% url 'category_view_head' article.category.id %}" class="card-link">
+                {{ article.category.name }}
+            </a>
+        </div>
+        <div class="card-text">
+            Author: 
+            <a href="{% url 'profile_index' article.author.username %}" class="card-link">
+                {{ article.author.username }}
+            </a>
+        </div>
+        <div class="card-text">Created At: {{ article.created_at }}</div>
+        <div class="card-text">Last Updated At: {{ article.last_updated_at }}</div>
+        <div class="card-text">
+            Likes: {{ likes_count }}
+            {% if user.is_authenticated %}
+                <a 
+                    href="{% url 'like' article.id %}" 
+                    class="card-link btn {% if liked %}btn-warning{% else %}btn-primary{% endif %} btn-sm">
+                    {% if liked %}Unlike{% else %}Like{% endif %}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="card-text text-break">
+            {{ article.content|safe }}
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4" id="comments">
+    <div class="card-header">{{ comments_count }} Comments</div>
+    {% if user.is_authenticated %}
+        <div class="card-body">
+            <form action="{% url 'compose_comment' article.id %}" method="post">
+                {% csrf_token %}
+                {{ form.content }}
+                <button class="btn btn-primary">Submit Comment</button>
+            </form>
+        </div>
+    {% endif %}
+    <div class="list-group list-group-flush">
+        {% for comment in comments %}
+            <div class="list-group-item">
+                <div class="text-muted">
+                    <a href="{% url 'profile_index' comment.author.username %}">
+                        {{ comment.author.username }}
+                    </a> / {{ comment.created_at }}
+                    {% if user == comment.author %}
+                        <a href="{% url 'delete_comment' comment.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    {% endif %}
+                </div>
+                <div>{{ comment.content }}</div>
+            </div>
+        {% empty %}
+            <div class="list-group-item disabled">
+                No comments
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
