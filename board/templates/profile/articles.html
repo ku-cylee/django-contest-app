@@ -3,12 +3,12 @@
 
 {% extends 'base.html' %}
 
-{% block title %}Profile of {{ user.username }}{% endblock %}
+{% block title %}Profile of {{ profile_user.username }}{% endblock %}
 
-{% block header_title %}Profile of {{ user.username }}{% endblock %}
+{% block header_title %}Profile of {{ profile_user.username }}{% endblock %}
 
 {% block header_buttons %}
-<a href="{% url 'profile_index' user.username %}" class="btn btn-primary">View Profile</a>
+<a href="{% url 'profile_index' profile_user.username %}" class="btn btn-primary">View Profile</a>
 {% endblock %}
 
 {% block body %}
